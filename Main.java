@@ -1,4 +1,6 @@
 
+import java.io.File;
+
 import extended_number.*;
 
 public class Main{
@@ -8,12 +10,11 @@ public class Main{
         Zt y = z.rem(c);
         System.out.println(z);
         System.out.println(y);
-        int num = 500000;
-        System.out.println("Factorial Length : " + Zt.factorial_length(num, 10));
-        System.out.println("Trailing  : " + Zt.factorial_trailing_zeros(num));
-        long start = System.currentTimeMillis();
-        System.out.println(" After i value :" + c.factorial_concurrent(num, 8, true));
-        System.out.println("TIme : " + (System.currentTimeMillis() - start));
-        System.out.println("Basic : " + Basic.largest_prime_factor(15625));
+        System.out.println("Divide : " + z.divide(c));
+        Q q1 = new Q(2, 6);
+        System.out.println((q1.add(q1)));
+        System.out.println("Current : " + System.getProperty("user.dir"));
+        FileRemover fr = new FileRemover(System.getProperty("user.dir"));
+        fr.remove(new File(System.getProperty("user.dir")), "class");
     }
 }

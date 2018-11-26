@@ -121,7 +121,7 @@ public class Basic {
     
     public static W gcd(W a, W b) {
         W rem = a.remainder(b);
-        if(rem.equals(Z.ZERO))
+        if(rem.equals(Zt.ZERO))
             return b;
         return gcd(b, rem);
     }

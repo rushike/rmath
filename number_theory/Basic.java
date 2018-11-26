@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import extended_number.W;
-import extended_number.Z;
+import extended_number.Zt;
 
 /**
  *
@@ -61,7 +61,7 @@ public class Basic {
     
     public static W gcd(W a, W b) {
         W rem = a.remainder(b);
-        if(rem.equals(Z.ZERO))
+        if(rem.equals(Zt.ZERO))
             return b;
         return gcd(b, rem);
     }

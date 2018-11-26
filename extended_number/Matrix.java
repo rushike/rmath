@@ -212,7 +212,7 @@ public class Matrix<E extends W> extends W{
      */
     public Matrix multiply(int k){
         E et;
-        Z x = new Z(k); 
+        Zt x = new Zt(k); 
         
         Matrix<E> ans = new Matrix<>(e, m, n);
         for(int i = 0; i < m; i++) {

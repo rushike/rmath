@@ -13,11 +13,12 @@ import java.util.Arrays;
  * @author rushi
  */
 public class R extends W {
-    long value;
     
-    public final BigDecimal val;
+    double value;
     
-    Z xt;
+    public BigDecimal val;
+    
+    Zt xt;
     
     public int scale;
     
@@ -37,7 +38,7 @@ public class R extends W {
     }
     
     public void xtsc() {
-        xt = new Z(val.unscaledValue());
+        xt = new Zt(val.unscaledValue());
         scale = val.scale();
     }
     
@@ -46,7 +47,7 @@ public class R extends W {
     public W add(W num) {
         return new  R(val.add(((R)num).val));
     }
-    public W add(Z num, boolean test){
+    public W add(Zt num, boolean test){
         int[] ans = new int[num.length + 1];
         
         return num;
@@ -78,7 +79,7 @@ public class R extends W {
     
     @Override
     public boolean equals(Object obj) {
-        Z cmp = (Z)obj;
+        Zt cmp = (Zt)obj;
         return val.equals(cmp.val);
     }
     
@@ -100,7 +101,7 @@ public class R extends W {
         }return mat;
      }
     
-     public Z get_xt(){
+     public Zt get_xt(){
         return xt;
     }
     
@@ -122,12 +123,12 @@ public class R extends W {
     }
     
     @Override
-    public W power(int exp) {
+    public W pow(int exp) {
         return new R(val.pow(exp));
     }
  
     @Override
-    public W remainder(W num) {
+    public W rem(W num) {
         return new R(val.remainder(((R)num).val));
     }
     
@@ -153,60 +154,7 @@ public class R extends W {
         if(check > 0) return Arrays.copyOfRange(arr, check, arr.length);
         return arr;
     }
-     
-    @Override
-    public String toString() {
-        return val.toString();
-    }
-    /**
-    public String toString(boolean test) {
-        StringBuilder s = new StringBuilder(Integer.toString(xt[0]));
-        int i = 1;
-        while(i < length ) {
-            s = s.append(wrap_bits_int_toString(xt[i++]));
-        }return s.toString();
-    }
-    
-    public byte[] to_byte_array() {
-        return val.toByteArray();
-    }
-    
-    public byte[] to_byte_array(int[] art) {
-        byte[] arr = new byte[art.length * 4];
-        int i, j = arr.length;
-        wrap = 0xff;
-        wrap_bits = 8;
-        long intr;
-        for(i = art.length; i > 0; ) {
-            intr = art[--i];
-            arr[--j] = (byte)(intr & wrap);
-            intr = intr >>> wrap_bits;
-            while(j % 4 != 0 ) {
-                arr[--j] = (byte)(intr & wrap);
-                intr = intr >>> wrap_bits;
-            }
-        }
-        return trim_start(arr, 0);
-    }
-    
-    public final int[] to_int_array() {
-        byte[] bys = val.toByteArray();
-        double len = bys.length * 1.0 / 4;
-        int j = len - Math.floor(len) > 0 ? (int)Math.ceil(len) : (int)len;
-        int[] arr = new int[j];
-        wrap = 0xffL;
-        int i, k;
-        long xd;
-        for(i = bys.length ; i > 0 && j > 0; ) {
-            xd = 1; k = 0;
-            arr[--j] = (int)(bys[--i] & wrap);
-            while(i > 0 && k++ < 3) {
-                xd = xd * 256;
-                arr[j] = (int)((bys[--i] & wrap) * xd) + arr[j];
-            }
-        }return arr;
-    }
-    **/    
+        
     public String wrap_bits_int_toString(int num){
         return "NOT_READY";
     }

@@ -49,12 +49,14 @@ public class Zt extends W{
     /**
      * Zero representation in Z 
      */
-    public static Z ZERO = new Z("0");
+    public static Zt ZERO = new Zt("0");
     
     /**
      * ONE representation of ONE - Unity
      */
-    public static Z ONE = new Z("1");
+    public static Zt ONE = new Zt("1");
+
+    public static Zt NEG_ONE = new Zt("-1");
     
 
     /**
@@ -89,6 +91,13 @@ public class Zt extends W{
 
     public Zt(BigInteger bval){
         valb = bval;
+        mag = valb.mag;
+        signf = valb.signum;
+    }
+
+    public Zt(long val){
+        this.value = val;
+        valb = new BigInteger(val);
         mag = valb.mag;
         signf = valb.signum;
     }
@@ -134,6 +143,10 @@ public class Zt extends W{
         return new Zt(bt);
     }
 
+    public Zt additive_inverse(){
+        return multiply(NEG_ONE);
+    }
+
     /**
      * Multiplies on other thread
      * Stores result in this = this * b
@@ -159,8 +172,8 @@ public class Zt extends W{
         }.init(this, b).start(); 
     }
 
-    public Zt divide(Zt zt){
-        return new Zt(valb.divide(zt.valb));
+    public Zt divide(Zt a){
+        return new Zt(valb.divide(a.valb));
     }
 
     public static Zt divide(Zt a, Zt b){
@@ -191,7 +204,7 @@ public class Zt extends W{
     }
     public static Zt gcd(Zt a, Zt b) {
         Zt rem = a.rem(b);
-        if(rem.equals(Z.ZERO))
+        if(rem.equals(Zt.ZERO))
             return b;
         return gcd(b, rem);
     }
