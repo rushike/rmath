@@ -13,7 +13,7 @@ import extended_number.*;
  */
 public class FractionSeries<E extends W> extends Series {
  
-    private int limit;
+    public int limit;
     
     public FractionSeries(E base, int limit, int terms){
         this.limit = limit;
@@ -22,11 +22,11 @@ public class FractionSeries<E extends W> extends Series {
         series = new  Matrix<>(base, 1, terms);
         build_series();
     }
-    public Matrix get_series(){
+    public number_theory.Matrix<E> get_series() {
         return series;
     }
     
-    @Override
+      
     public final void build_series(){
         Matrix<Q> intr_matrix = new Matrix<>(new Q(), terms, terms);
         GeometricSeries<Q> first_series = new  GeometricSeries<>(new Q(1,1), new Q(1,2), terms);
@@ -44,7 +44,7 @@ public class FractionSeries<E extends W> extends Series {
             }
         }
     }
-    @Override
+      
     public String toString(){
         String s = "Fraction Series : {a: "+base+", limit: "+limit+" terms : " + terms + " }\n ";
         s = s + super.toString();

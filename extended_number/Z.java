@@ -5,7 +5,7 @@
  */
 package extended_number;
 
-import java.math.BigInteger;
+import extended_number.helper.math.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -49,23 +49,23 @@ public class Z extends W {
     /**
      * WRAP is use to get long unsigned integer value
      */
-    private long WRAP = 0xffffffffL;
+    public static final long WRAP = 0xffffffffL;
     
     @Deprecated
-    private long wrap;
+    public long wrap = WRAP;
     
     /**
      * WRAP_BITS are no. of bits of number that can WRAP to long value
      */
-    private int WRAP_BITS = 32;
+    public static final int WRAP_BITS = 32;
     
     @Deprecated
-    private long wrap_bits;
+    public long wrap_bits = WRAP_BITS;
     /**
      * @since  INcomplete definition 
      * INCR holds the number of bits that the current wrap in radix 10  
      */
-    private int[] INCR = {10};
+    public int[] INCR = {10};
     
     /**
      * Zero representation in Z 
@@ -157,7 +157,7 @@ public class Z extends W {
     } 
     
 
-    private int[] add(int[] A, int[] B){
+    public int[] add(int[] A, int[] B){
         if(A.length < B.length ){
             int[] swap = A;
             A = B;
@@ -260,7 +260,7 @@ public class Z extends W {
         return new Z(new BigInteger(1, to_byte_array(factorial(num, true))));
     }
     
-    private  int[] factorial(int num, boolean internal) {
+    public  int[] factorial(int num, boolean internal) {
         
         int len = factorial_length(num, 2); // factorial length if in specific radix = 2
         
@@ -276,6 +276,43 @@ public class Z extends W {
         }return fact;
     }
     
+    public Z factorial_op(int num){
+        return new Z(new BigInteger(1, to_byte_array(factorial_op(num, true))));
+    }
+
+    public int[] factorial_op(int num, boolean test){
+        int len = factorial_length(num, 2); // factorial length if in specific radix = 2
+        
+        int int_len = len / WRAP_BITS + 2; // num length allocated in int array, + 1
+        
+        int[] fact = new int[int_len]; //   allocating space for array
+        
+        fact[fact.length - 1] = 1; //   assigning unit value to num fact
+        
+        int start_offset, end_offset;
+        for(int i = 2; i <= num; i++){
+            end_offset = int_len - factorial_length(i, 2) / WRAP_BITS;
+            start_offset = int_len - factorial_trailing_zeros(i, 2) / WRAP_BITS;
+            scale_in_between(fact, start_offset, end_offset, i, 0);
+        }
+        return fact;
+    }
+
+    public static int factorial_trailing_zeros(int num){
+        return factorial_trailing_zeros(num, 10);
+    }
+
+    public static int factorial_trailing_zeros(int num, int base){
+        base = (int)Basic.largest_prime_factor(base);
+        int n = (int)(Math.log(num) / Math.log(base));
+        int sum = 0, mul = base;
+        for(int i = 0; i < n; i++){
+            sum  += num / mul;
+            mul *= base;
+        }
+        return sum;
+    }
+
     /**
      * finding length of num! by using Stirling Approximation
      * n! ~= root2(2*pi*n)*(n/e)^n
@@ -291,7 +328,7 @@ public class Z extends W {
     public Z gcd(Z a) {
         return gcd(this, a);
     }
-    private Z gcd(Z a, Z b) {
+    public Z gcd(Z a, Z b) {
         Z rem = (Z)a.remainder(b);
         if(rem.equals(Z.ZERO))
             return b;
@@ -334,7 +371,7 @@ public class Z extends W {
     public final int length(int len, int radix) {
         return (int)(length / Math.log(WRAP+1) * Math.log(radix) + 1);
     }
-    private int length(String num) {
+    public int length(String num) {
         return 0;
     }
     
@@ -376,13 +413,36 @@ public class Z extends W {
      * @param bits length to which to scale, if number was in binary
      * @return scaled number
      */  
-    private int[] scale(int[] arr, int k, int bits) {
+    public int[] scale(int[] arr, int k, int bits) {
         int len = arr.length - bits / WRAP_BITS ;
         long scl = 0;
-        for(int i = arr.length; i > len;) {
+        for(int i = arr.length; i >= len;) {
             scl = (arr[--i] & WRAP) * k + (scl >>> WRAP_BITS);
             arr[i] = (int)(scl & WRAP) ;           
         }return arr;
+    }
+    /**
+     * It will used to optimese the performance,<br>
+     * If we result is n length array, but start with 1 unit array gradually grow in size,<br>
+     * Also consist zeros at start ... <b>e.g.</b> <i>factorials</i>, then only scale the relavant part<br>
+     * @param arr
+     * @param start_offset LSB start index, in Big-Endian nearer to arr.length
+     * @param end_offset MSB start index, in Big-Endian nearer to 0
+     * @param k constant to scale
+     * @param bits bits involed in int, base of multiplication, e.g decimal, hexadecimal etc;
+     * @return
+     */
+    public int[] scale_in_between(int[] arr, int start_offset, int end_offset, int k, int bits){
+        // int len = arr.length - start_offset + end_offset - bits / WRAP_BITS;
+        long scl = 0L;
+        for(int i = start_offset; i > end_offset;){
+            scl = (arr[--i] & WRAP) * k + (scl >>> WRAP_BITS);
+            // System.out.println("scl : " + scl);
+            arr[i] = (int)(scl & WRAP);
+        }if((scl >>> WRAP_BITS) > 0 && end_offset > 0){
+            arr[end_offset] = (int)(scl >>> WRAP_BITS);
+        }
+        return arr;
     }
     /**
      * Its is reverse or inverse function to scale<br>
@@ -393,7 +453,7 @@ public class Z extends W {
      * @param bits 
      * @return 
      */
-    private int scale_invert(int[] arr, long k, int bits) {
+    public int scale_invert(int[] arr, long k, int bits) {
         int len = arr.length;
         int i = 0;
         long divd = arr[i] & WRAP;
@@ -412,13 +472,14 @@ public class Z extends W {
             if(i < len) divd = divd * (WRAP + 1)+ (arr[i] & WRAP);
         }return (int)divd;
     }
+    
    /**
     * security 
      * @param wrap_bits
     */ 
    protected void set_secure_wrap(int wrap_bits){
-       WRAP_BITS = wrap_bits;
-       WRAP = (long)Math.pow(2, WRAP_BITS) - 1; 
+       this.wrap_bits = wrap_bits;
+       this.wrap = (long)Math.pow(2, WRAP_BITS) - 1; 
    }
     
     @Override
@@ -430,6 +491,7 @@ public class Z extends W {
     public W subtract(W num) {
         return new Z(val.subtract(((Z)num).val));
     }
+
 
     /**
      * Trims a  arr array from start for value matching di
@@ -446,7 +508,7 @@ public class Z extends W {
      
     @Override
     public String toString() {
-        return convert_to();
+        return val.toString();
     }
     
     public String toString(boolean test) {
@@ -497,7 +559,7 @@ public class Z extends W {
         }return arr;
     }
         
-    private String wrap_bits_int_toString(int num){
+    public String wrap_bits_int_toString(int num){
         return "NOT_READY";
     }
 }

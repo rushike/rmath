@@ -20,7 +20,7 @@ public class GeometricSeries<E extends W> extends Series{
         series = new Matrix<>(base, 1, terms);
         build_series();
     }
-    @Override
+      
     public void build_series(){
          E item;
          series.set(0, 0, base);
@@ -30,7 +30,7 @@ public class GeometricSeries<E extends W> extends Series{
             series.set(0, i, item);
         }
     }
-    @Override
+      
     public String toString(){
         String s = "Geometric Series : {a: "+base+", r: "+ratio+"}\n ";
         s = s + super.toString();

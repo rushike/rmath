@@ -5,8 +5,7 @@
  */
 package extended_number;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
+import extended_number.helper.math.*;
 import java.util.Arrays;
 
 /**
@@ -16,11 +15,11 @@ import java.util.Arrays;
 public class R extends W {
     long value;
     
-    private final BigDecimal val;
+    public final BigDecimal val;
     
     Z xt;
     
-    private int scale;
+    public int scale;
     
     public R(String num) {
         val = new BigDecimal(num);
@@ -37,7 +36,7 @@ public class R extends W {
         xtsc();
     }
     
-    private void xtsc() {
+    public void xtsc() {
         xt = new Z(val.unscaledValue());
         scale = val.scale();
     }
@@ -113,7 +112,7 @@ public class R extends W {
         return 0;
     }
     
-    private int length(String num) {
+    public int length(String num) {
         return 0;
     }
     
@@ -208,7 +207,7 @@ public class R extends W {
         }return arr;
     }
     **/    
-    private String wrap_bits_int_toString(int num){
+    public String wrap_bits_int_toString(int num){
         return "NOT_READY";
     }
 

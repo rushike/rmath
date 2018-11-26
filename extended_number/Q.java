@@ -5,18 +5,17 @@
  */
 package extended_number;
 
-import number_theory.Basic;
-
 /**
  *
  * @author rushi
  */
 public class Q extends W{
+    public static final long serialVersionUID = 1L;
     /**
      * Fraction representation
      */
-    private Z x;
-    private Z y;
+    public Z x;
+    public Z y;
     
     public Q(){
         this.x = new Z() ;

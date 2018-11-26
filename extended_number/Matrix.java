@@ -11,22 +11,23 @@ package extended_number;
  * @param <E>
  */
 public class Matrix<E extends W> extends W{
+    public static final long serialVersionUID = 1L;
     /**
      * Matrix of type E
      */
-    private final Object[][] matrix;
+    public final Object[][] matrix;
     /**
      * Indicates no. of rows in matrix
      */
-    private final int m;
+    public final int m;
     /**
      * Indicates no. of columns in matrix
      */
-    private final int n;
+    public final int n;
     /**
      * 
      */
-    private final E e;
+    public final E e;
   
     public Matrix(E e, int m, int n){
         this.m = m;

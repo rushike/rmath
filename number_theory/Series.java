@@ -5,8 +5,7 @@
  */
 package number_theory;
 
-import extended_number.Matrix;
-import extended_number.W;
+import extended_number.*;
 
 /**
  *
@@ -14,6 +13,8 @@ import extended_number.W;
  * @param <E>
  */
 public class Series<E extends W> extends W{
+    public static final long serialVersionUID = 1L;
+
     Matrix<E> series;
     
     E base;
@@ -35,7 +36,7 @@ public class Series<E extends W> extends W{
     public E get_base(){
         return base;
     }
-    @Override
+      
     public String toString() {
         String s = "";
         for(int i = 0; i < series.get_n(); i++){

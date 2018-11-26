@@ -1,9 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package number_theory;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import extended_number.W;
 import extended_number.Z;
@@ -13,6 +11,37 @@ import extended_number.Z;
  * @author rushi
  */
 public class Basic {
+   
+    public static boolean is_prime(long num){
+        int mid_sq = Math.sqrt(num), iter = 2;
+        while(iter < mid_sq){
+            if(num % iter == 0) return false;
+        }
+        return true;
+    }
+
+
+    public long[] sieve_eratosthenes(int limit){
+        boolean[] not_primes = new boolean[limit];
+        ArrayList<Long> prime_list = new ArrayList<>();
+        long current_prime = 2;
+        int mid_sq = (int)Math.sqrt(limit), index = 0, iter = 0;
+        while(current_prime < mid_sq){
+            prime_list.add(index++, current_prime);
+            iter = current_prime;
+            while(iter <= limit){
+                iter += current_prime;
+                not_primes[iter] = true;
+            }
+            while(true){
+                if(not_primes[current_prime]) break; 
+                current_prime++;
+            }
+        }
+        return primes;
+    }
+    
+
     /**
      * a &gt b
      * gcd(a, q)
