@@ -1,4 +1,4 @@
-package tests.rmath.basic.sorting;
+package rmath.basic.sorting;
 
 import rmath.basic.sorting.*;
 import java.util.*;

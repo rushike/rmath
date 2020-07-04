@@ -1,4 +1,5 @@
 ERR, Message
-ERR 000:, Heap full ...
-ERR 001:, Probably not inistiated heap, heap allocated with nulls.
-E002 :, Result can't copy, res provided is smaller than expected length : N
+ERR 000 , Heap full ...
+ERR 001 , Probably not inistiated heap, heap allocated with nulls.
+ERR 002 , Result can't copy, res provided is smaller than expected length  N
+ERR 003 , Matrix can't divide other matrix. Illogical !

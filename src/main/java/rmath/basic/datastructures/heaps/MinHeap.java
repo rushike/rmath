@@ -123,7 +123,7 @@ public class MinHeap<E extends Object>{
         return li.toArray();
     }
     public E[] sort(String order, E[] res){
-        if (res.length < this.size) display.println("E002 : Result can't copy, res provided is smaller than expected length : ", this.size);
+        if (res.length < this.size) display.println("ERR 002 : Result can't copy, res provided is smaller than expected length : ", this.size);
         Object[] temp = this.sort(order);
         for(int i = 0; i < res.length; i++){            
             res[i] = (E)temp[i];
