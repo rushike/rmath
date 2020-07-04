@@ -9,9 +9,31 @@ package extended_number;
  *
  * @author rushi
  */
-public  class W extends Number implements Comparable<W>{
+public  class W extends Symbol implements Comparable<W>{
     
-    int FORMAT_NOT_SPECIFIED = 0x6ea;
+    public static final int FORMAT_NOT_SPECIFIED = 0x6ea;
+
+    public static final char[] _DIGIT_ = new char[]{'0', '1', '2', '3', '4','5', '6', '7', '8', '9', '0', 'A', 'B', 'C', 'D', 'E', 'F'}; 
+
+
+    public W(){
+          
+    }
+
+    public W(String num){
+        super(num);
+    }
+
+    public boolean is_word(){
+        boolean check;
+        int base = _DIGIT_.length;
+        for(int i = 0; i < sym.length(); i++){
+            check = false;
+            for(int j = 0; j < base; j++){
+                if(sym.charAt(i) == _DIGIT_[j]) check = true; 
+            }if(!check) return false;
+        }return true;
+    }
     
     /**
      *<p> Adds, this + num </p> 
@@ -26,10 +48,7 @@ public  class W extends Number implements Comparable<W>{
          return this;
      }
     
-    @Override
-    public int compareTo(W o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    
     
     public int compare_to(W num) {
         return 0;
@@ -44,15 +63,6 @@ public  class W extends Number implements Comparable<W>{
         return num;
      }
      
-     @Override
-     public double doubleValue() {
-         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-     }
-    
-     @Override
-     public float floatValue() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-     }
        /**
      * returns 1D array of W of size m , 
      * also it instantiate the array
@@ -83,16 +93,6 @@ public  class W extends Number implements Comparable<W>{
      }
     
      
-     @Override
-     public int intValue() {
-         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-     }
-
-     @Override
-     public long longValue() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-     }
-     
     /**
      * <p>Multiplies, this * num  </p>
      * @param num
@@ -122,9 +122,15 @@ public  class W extends Number implements Comparable<W>{
      public W subtract(W num){
         return num;
      }
+
+    @Override
+    public int compareTo(W o) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
        
     @Override
      public String toString(){
-        return "Word.Format_NOT_SPECIFIED : " + FORMAT_NOT_SPECIFIED;
+         return sym.toString();
+        // return "Word.FORMAT_NOT_SPECIFIED : " + FORMAT_NOT_SPECIFIED;
      } 
 }

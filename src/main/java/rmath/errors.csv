@@ -1,0 +1,4 @@
+ERR, Message
+ERR 000:, Heap full ...
+ERR 001:, Probably not inistiated heap, heap allocated with nulls.
+E002 :, Result can't copy, res provided is smaller than expected length : N

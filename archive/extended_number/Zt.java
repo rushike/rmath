@@ -78,6 +78,7 @@ public class Zt extends W{
      * @param num
      */
     public Zt(String num){
+        super(num);
         valb = new BigInteger(num);
         mag = valb.mag;
         signf = valb.signum;
@@ -163,6 +164,7 @@ public class Zt extends W{
 
             @Override
             public void run(){
+                Thread.currentThread().setPriority(10);
                 a.workingstate(0);// Enters in working state
                 b.workingstate(0);// Enters in working state
                 a.set(a.multiply(b));
@@ -259,6 +261,11 @@ public class Zt extends W{
         return new Zt(b);
     }
 
+    public Zt factorial_tree(int n){
+        if(n < 2) return Zt.ONE;
+        return factorial_consec_tree_struct(1, n + 1);
+    }
+
     public Zt factorial_concurrent(int num, int threads, boolean test){
         // int[] st = new int[threads];
         // int[] en = new int[threads];
@@ -279,7 +286,8 @@ public class Zt extends W{
         final int imax = num / threads;
         final Iterator i = new Iterator();
         sync_t = new Semaphore(threads);
-
+        
+        // Thread.currentThread().setPriority(10);
         for(; i.ival() < threads; ){
             workers[i.ival()] = new Zt();
             new Thread(){
@@ -291,6 +299,7 @@ public class Zt extends W{
                 }
                 @Override
                 public void run() {
+                    // Thread.currentThread().setPriority(10);
                     try{
                         sync_t.acquire();
                         sti = imax * d; eni = sti + imax;
@@ -306,7 +315,7 @@ public class Zt extends W{
             }.init(i.ival()).start();
             i.iplusplus();
         }
-        
+        // Thread.currentThread().setPriority(5);
        // System.out.println("Avail Per : " + sync_t.availablePermits());
         try{
             HashSet<Integer> work_set = new HashSet<>();
@@ -349,6 +358,12 @@ public class Zt extends W{
                     // e.printStackTrace();
                 }
                 if(sync_t.availablePermits() == threads) break;
+
+                try{
+                    // Thread.sleep(1000/threads);
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
                 // int f = total_worker_in_states(workers, 1);
                 // System.out.println("f -------------- >         : " + f);
                 // if(f == 1) break;
@@ -370,6 +385,21 @@ public class Zt extends W{
         for(int i = st + 1; i < en; i++){
             b = b.multiply(new BigInteger("" + i));
         }return new Zt(b);
+    }
+
+    /**
+     * Multiplies all consective number in interval [low, high), i.e. low * (low  + 1) * ... (high - 1);
+     * @param low lowest bound to start, inclusive
+     * @param high highest bound to end , exlcusive
+     * @return consectutive multiplication of numbers.
+     */
+    public Zt factorial_consec_tree_struct(int low, int high){
+        if(high < low) return factorial_consec_tree_struct(high, low);
+        if(low + 1 < high){
+            int mid = (high + low + 1) / 2;
+            return factorial_consec_tree_struct(low, mid).multiply(factorial_consec_tree_struct(mid, high));
+        }
+        return new Zt(low);
     }
 
     public static int factorial_trailing_zeros(int num){

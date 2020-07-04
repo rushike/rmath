@@ -37,6 +37,7 @@ public class Rt extends W{
         precision = bval.precision;
     }
     public Rt(String num){
+        super(num);
         bval = new BigDecimal(num);
         mag = new Zt(bval.intVal);
         scale = bval.scale;
