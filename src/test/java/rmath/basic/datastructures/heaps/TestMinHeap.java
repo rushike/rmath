@@ -4,8 +4,7 @@ import rmath.helpers.display;
 import rmath.basic.sorting.Sort;
 import rmath.basic.datastructures.heaps.MinHeap;
 
-public class TestMinHeap {
-    @SuppressWarnings("rawtypes")
+public class TestMinHeap {    
     public static void main(String[] args) {
         MinHeap<Integer> heap = new MinHeap<Integer>(10);
         heap.set_heap(new Integer[]{1, 3, 2, 11, 5, 12, 81, 92, 91029, 129, 322, 12});
